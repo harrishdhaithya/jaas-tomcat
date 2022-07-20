@@ -17,7 +17,7 @@ public class AuthLoginModule implements LoginModule {
     private UserPrincipal userPrincipal;
     private RolePrincipal rolePrincipal;
     private String login;
-    private List<String> userGroup;
+    private List<String> userGroups;
     @Override
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState,
             Map<String, ?> options) {
@@ -48,8 +48,8 @@ public class AuthLoginModule implements LoginModule {
                 validate(name, password)
             ){
                 login=name;
-                userGroup = new ArrayList<String>();
-                userGroup.add("admin");
+                userGroups = new ArrayList<String>();
+                userGroups.add("admin");
                 return true;
             }else{
                 throw new LoginException("Authentication Failed...");
@@ -68,21 +68,21 @@ public class AuthLoginModule implements LoginModule {
         userPrincipal = new UserPrincipal(login);
         subject.getPrincipals().add(userPrincipal);
         if(
-            userGroup != null &&
-            userGroup.size()>0
+            userGroups != null &&
+            userGroups.size()>0
         ){
-            for(String groupName:userGroup){
+            for(String groupName:userGroups){
                 rolePrincipal = new RolePrincipal(groupName);
                 subject.getPrincipals().add(rolePrincipal);
             }
         }
-        return false;
+        return true;
     }
     @Override
     public boolean logout() throws LoginException {
         subject.getPrincipals().remove(userPrincipal);
         subject.getPrincipals().remove(rolePrincipal);
-        return false;
+        return true;
     }
     
 }

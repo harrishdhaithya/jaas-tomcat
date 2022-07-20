@@ -17,7 +17,6 @@ public class Main {
             lc.login();
             System.out.println("Login Successfull...");
         } catch (LoginException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Login Failed...");
         }
